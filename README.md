@@ -7,3 +7,8 @@ module.exports = {
     token: 'xxxxxx'
 }
 ```
+
+```
+docker build -t hitoka/srszd-scrape-cheeriover .
+```
+
