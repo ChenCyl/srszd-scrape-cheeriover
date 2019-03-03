@@ -1,3 +1,5 @@
 node_modules
 key.js
 DS_Store
+.http
+logs/
