@@ -22,9 +22,16 @@ const logger = log4js.getLogger('schedule');
 //   logger.error('Cheese is too ripe!');
 //   logger.fatal('Cheese was breeding ground for listeria.');
 
+// 下一个月（4月）的链接拼接字符串（每个月改一次）
+const nextMonth = 5
+// 第一个月的链接
 const url = 'http://www.etmskies.com/richeng.asp?natureA=4'
+// 下一个月的链接
+const urlNext = 'http://www.etmskies.com/richeng.asp?natureA=4&typesB=' + nextMonth
 // 第一个月的活动数量
-let activityNumOne = 3
+let activityNumOne = 10
+// 下一个月的活动数量
+let activityNumNext = 0
 
 function get_network_data(uri, callback) {
     http.get(uri, function (res) {
@@ -47,10 +54,17 @@ function get_network_data(uri, callback) {
     })
 }
 
-function sharetoWeibo() {
+function sharetoWeibo(flag, flagNext) {
     // 文案
     let text = []
-    text.unshift('http://etmskies.com/richeng.asp?natureA=4')
+    // 如果当月有行程则链接到当月
+    if (flag) {
+        text.unshift('http://etmskies.com/richeng.asp?natureA=4')
+    }
+    // 否则链接到次月
+    else {
+        text.unshift('http://etmskies.com/richeng.asp?natureA=4&typesB=' + nextMonth)
+    }
     text.unshift('叮咚！Chic Chili 有新行程了！')
     logger.info(text.join('\n'))
     // console.log(text.join('\n'))
@@ -71,24 +85,50 @@ function sharetoWeibo() {
 
 // 每30s刷新一次
 setInterval(function () {
+    // 抓取第一个月的数据
     get_network_data(url, function ($) {
+        // 检测到新行程标志
+        let flag = false
         let newActivityNum = $(".onli").length
-        logger.info("当前日程数为" + activityNumOne)
-        logger.info("检测到实时日程数为" + newActivityNum)
-        // console.log("检测到实时日程数为")
-        // console.log(newActivityNum)
+        logger.info("当月日程数为 " + activityNumOne)
+        logger.info("当月实时日程数为 " + newActivityNum)
+        // 如果检测到新行程
         if (newActivityNum > activityNumOne) {
-            logger.info("检测到新的行程，接下来会发布到微博")
-            // console.log("检测到新的行程，接下来会发布到微博")
-            sharetoWeibo()
+            flag = true
+            logger.info("检测到当月新的行程")
+            // sharetoWeibo()
             activityNumOne = newActivityNum
         }
         else {
-            logger.info("没有新行程哦，30s后刷新页面")
+            logger.info("当月没有新行程哦")
             // console.log("没有新行程哦，30s后刷新页面")
         }
+        // 抓取下一个月的数据
+        get_network_data(urlNext, function ($) {
+            // 检测到下个月新行程标志
+            let flagNext = false
+            let newActivityNumNext = $(".onli").length
+            logger.info("下个月日程数为 " + activityNumNext)
+            logger.info("下个月实时日程数为 " + newActivityNumNext)
+            // 如果有新行程
+            if (newActivityNumNext > activityNumNext) {
+                flagNext = true
+                logger.info("检测到下个月的新行程")
+                activityNumNext = newActivityNumNext
+            }
+            else {
+                logger.info("下个月没有新行程哦")
+                // console.log("没有新行程哦，30s后刷新页面")
+            }
+            if (flag || flagNext) {
+                logger.info("正在发布到微博...")
+                sharetoWeibo(flag, flagNext)
+            }
+            logger.info("----------------")
+        })
     })
-}, 30000)
+
+}, 60000)
 
 
 
