@@ -8,7 +8,7 @@ const log4js = require('log4js');
 
 // >>>已经有行程的日期对应的data值<<<
 let plannedSchedules = [
-    '103'
+
 ]
 // 需要发起请求的 dataA 们
 let dataAs = []
@@ -18,12 +18,13 @@ let dataB = 4
 let text = []
 // log设置
 log4js.configure({
-    appenders: { schedule: { type: 'file', filename: 'logs/schedule', "pattern": "dd.log", alwaysIncludePattern: true } },
+    appenders: { schedule: { type: 'file', filename: 'logs/schedule.next', "pattern": "dd.log", alwaysIncludePattern: true } },
     categories: { default: { appenders: ['schedule'], level: 'info' } }
 });
 const logger = log4js.getLogger('schedule');
-// 请求一个月的行程的链接
-const url = 'http://www.etmskies.com/richeng.asp?natureA=4'
+// >>>请求一个月的行程的链接<<<
+const month = 6
+const url = 'http://www.etmskies.com/richeng.asp?typesB=' + month + '&natureA=4'
 
 // 利用 cheerio 请求网络资源的封装函数
 function get_network_data(uri, callback) {
@@ -49,7 +50,7 @@ function get_network_data(uri, callback) {
 
 // 分享到微博
 function sharetoWeibo() {
-    text.push('http://etmskies.com/richeng.asp?natureA=4')
+    text.push('http://etmskies.com/richeng.asp?typesB=' + month + '&natureA=4')
     logger.info(text.join(""))
     // 注意文本中的特殊符号& # 
     let status = encodeURI(text.join("")).replace(/\&/, "%26").replace(/\#/, "%23")
@@ -63,16 +64,15 @@ function sharetoWeibo() {
         }).catch(err => {
             logger.error('Fail to share to weibo, Try again')
             logger.error(err.response.data)
-            console.log("Fail to share, Try again")            
+            console.log("Fail to share, Try again")
             // 发送失败重新编辑文案再发送
             text.pop()
-
-            if (text.join("") == "叮咚！Chic Chili 有新行程啦！\n") {
+            if (text.join("") == "叮咚！Chic Chili 有新行程啦！在 " + (month - 1) + " 月哦~\n") {
                 logger.error("Try again, fail, stop to share!!!")
                 text = []
             }
             else {
-                text = ["叮咚！Chic Chili 有新行程啦！\n"]
+                text = ["叮咚！Chic Chili 有新行程啦！在 " + (month - 1) + " 月哦~\n"]
                 sharetoWeibo()
             }
         })
