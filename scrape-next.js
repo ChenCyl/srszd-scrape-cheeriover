@@ -53,7 +53,7 @@ function sharetoWeibo() {
     text.push('http://etmskies.com/richeng.asp?typesB=' + month + '&natureA=4')
     logger.info(text.join(""))
     // 注意文本中的特殊符号& # 
-    let status = encodeURI(text.join("")).replace(/\&/, "%26").replace(/\#/, "%23")
+    let status = encodeURI(text.join("")).replace(/\&/g, "%26").replace(/\#/g, "%23")
     let url = 'https://api.weibo.com/2/statuses/share.json?access_token=' + key.token + '&status=' + status
     axios.post(url)
         .then(response => {
@@ -87,8 +87,10 @@ function getNewSchedules() {
             text.push($(".ricE_riqi").text() + ": \n")
             // 具体行程可能在p中也可能在.rcliq中 保险起见两个都要
             // 先去除空格，然后将连续的换行用一个换行替代，去除行首的换行
-            text.push($("p").text().replace(/[\t\x20]/g, "").replace(/[\n]+/g, "\n").replace(/^\n/g, ""))
-            text.push($(".rcliq").text().replace(/[\t\x20]/g, "").replace(/[\n]+/g, "\n").replace(/^\n/g, ""))
+            text.push($("p").text().replace(/[\t\x20]/g, "").replace(/[\n]+/g, "\n").replace(/^\n/g, "")
+                .replace("刘人语", "LRY").replace("苏芮琪", "SRQ").replace("罗奕佳", "LYJ").replace("张静萱", "ZJX").replace("吉利", "JL"))
+            text.push($(".rcliq").text().replace(/[\t\x20]/g, "").replace(/[\n]+/g, "\n").replace(/^\n/g, "")
+                .replace("刘人语", "LRY").replace("苏芮琪", "SRQ").replace("罗奕佳", "LYJ").replace("张静萱", "ZJX").replace("吉利", "JL"))
         })
     }
 }
