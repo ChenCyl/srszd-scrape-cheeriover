@@ -88,9 +88,9 @@ function getNewSchedules() {
             // 具体行程可能在p中也可能在.rcliq中 保险起见两个都要
             // 先去除空格，然后将连续的换行用一个换行替代，去除行首的换行
             text.push($("p").text().replace(/[\t\x20]/g, "").replace(/[\n]+/g, "\n").replace(/^\n/g, "")
-                .replace("刘人语", "LRY").replace("苏芮琪", "SRQ").replace("罗奕佳", "LYJ").replace("张静萱", "ZJX").replace("吉利", "JL"))
+                .replace("刘人语", "刘语").replace("苏芮琪", "苏琪").replace("罗奕佳", "罗老师").replace("张静萱", "泡泡").replace("吉利", "大吉"))
             text.push($(".rcliq").text().replace(/[\t\x20]/g, "").replace(/[\n]+/g, "\n").replace(/^\n/g, "")
-                .replace("刘人语", "LRY").replace("苏芮琪", "SRQ").replace("罗奕佳", "LYJ").replace("张静萱", "ZJX").replace("吉利", "JL"))
+                .replace("刘人语", "刘语").replace("苏芮琪", "苏琪").replace("罗奕佳", "罗老师").replace("张静萱", "泡泡").replace("吉利", "大吉"))
         })
     }
 }
@@ -134,7 +134,7 @@ setInterval(function () {
         }
     })
 
-}, 60000)
+}, 30000)
 
 // logger 的使用:
 //   logger.trace('Entering cheese testing');
