@@ -1,4 +1,4 @@
-FROM node:8.15-alpine
+FROM node:10.15.3-alpine
 
 # 在镜像中创建一个文件夹存放应用程序代码
 # 这将是你的应用程序工作目录
