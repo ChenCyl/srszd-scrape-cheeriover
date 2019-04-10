@@ -127,7 +127,7 @@ setInterval(function () {
                 dataAs = []
                 sharetoWeibo()
                 console.log(text)
-            }, 10000)
+            }, 3000)
         }
         else {
             logger.info(":(没有新行程哦")
@@ -135,7 +135,7 @@ setInterval(function () {
         }
     })
 
-}, 60000)
+}, 6000)
 
 // logger 的使用:
 //   logger.trace('Entering cheese testing');
