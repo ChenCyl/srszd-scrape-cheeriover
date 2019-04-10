@@ -134,7 +134,7 @@ setInterval(function () {
         }
     })
 
-}, 30000)
+}, 60000)
 
 // logger 的使用:
 //   logger.trace('Entering cheese testing');

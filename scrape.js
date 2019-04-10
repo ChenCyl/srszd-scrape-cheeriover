@@ -33,6 +33,7 @@ function get_network_data(uri, callback) {
         let html = ''
         res.on('data', function (chunk) {
             // console.log(chunk.toString())
+            logger.info(chunk.toString())
             html += chunk
         })
         // 监听响应结束事件
@@ -134,7 +135,7 @@ setInterval(function () {
         }
     })
 
-}, 30000)
+}, 60000)
 
 // logger 的使用:
 //   logger.trace('Entering cheese testing');
