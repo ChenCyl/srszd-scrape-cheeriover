@@ -33,7 +33,7 @@ function get_network_data(uri, callback) {
         let html = ''
         res.on('data', function (chunk) {
             // console.log(chunk.toString())
-            logger.info(chunk.toString())
+            // logger.info(chunk.toString())
             html += chunk
         })
         // 监听响应结束事件
