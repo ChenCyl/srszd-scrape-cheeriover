@@ -23,7 +23,7 @@ log4js.configure({
 });
 const logger = log4js.getLogger('schedule');
 // >>>请求一个月的行程的链接<<<
-const month = 6
+const month = 7
 const url = 'http://www.etmskies.com/richeng.asp?typesB=' + month + '&natureA=4'
 
 // 利用 cheerio 请求网络资源的封装函数
