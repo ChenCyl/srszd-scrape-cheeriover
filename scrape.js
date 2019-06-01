@@ -8,7 +8,7 @@ const log4js = require('log4js');
 
 // >>>已经有行程的日期对应的data值<<<
 let plannedSchedules = [
-    
+    '160', '162', '172', '174'
 ]
 // 需要发起请求的 dataA 们
 let dataAs = []
